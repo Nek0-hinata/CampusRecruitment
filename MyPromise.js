@@ -16,6 +16,22 @@ class MyPromise {
     }
   }
 
+  static resolve(params) {
+    if (params instanceof MyPromise) {
+      return params;
+    }
+
+    return new MyPromise(resolve => {
+      resolve(params);
+    });
+  }
+
+  static reject(reason) {
+    return new MyPromise((_, reject) => {
+      reject(reason);
+    });
+  }
+
   resolve = (value) => {
     if (this.status === PENDING) {
       this.status = FULFILLED;
