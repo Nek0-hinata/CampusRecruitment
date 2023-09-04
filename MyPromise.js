@@ -1,6 +1,6 @@
-const PENDING = 'PENDING';
-const FULFILLED = 'FULFILLED';
-const REJECTED = 'REJECTED';
+const PENDING = "PENDING";
+const FULFILLED = "FULFILLED";
+const REJECTED = "REJECTED";
 
 class MyPromise {
   status = PENDING;
@@ -21,7 +21,7 @@ class MyPromise {
       return params;
     }
 
-    return new MyPromise(resolve => {
+    return new MyPromise((resolve) => {
       resolve(params);
     });
   }
@@ -53,12 +53,14 @@ class MyPromise {
   };
 
   then(onFulfilled, onRejected) {
-    onFulfilled = typeof onFulfilled === 'function'
-        ? onFulfilled
-        : value => value;
-    onRejected = typeof onRejected === 'function'
+    onFulfilled =
+      typeof onFulfilled === "function" ? onFulfilled : (value) => value;
+    onRejected =
+      typeof onRejected === "function"
         ? onRejected
-        : reason => {throw reason;};
+        : (reason) => {
+            throw reason;
+          };
     const promise = new MyPromise((resolve, reject) => {
       // 如果成功
       if (this.status === FULFILLED) {
@@ -113,7 +115,8 @@ class MyPromise {
 function resolvePromise(promise, x, resolve, reject) {
   if (promise === x) {
     return reject(
-        new TypeError('Chaining cycle detected for promise #<Promise>'));
+      new TypeError("Chaining cycle detected for promise #<Promise>"),
+    );
   }
   if (x instanceof MyPromise) {
     // 如果是promise，执行.then，改变其状态
@@ -125,8 +128,12 @@ function resolvePromise(promise, x, resolve, reject) {
 }
 
 const promise = new MyPromise((resolve, reject) => {
-  reject('success');
+  reject("success");
 });
-promise.then()
-    .then()
-    .then(value => console.log(value), reason => console.log(reason));
+promise
+  .then()
+  .then()
+  .then(
+    (value) => console.log(value),
+    (reason) => console.log(reason),
+  );
